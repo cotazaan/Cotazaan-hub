@@ -1,72 +1,113 @@
-import { supabase } from '@/lib/supabase'
-import ThemeToggle from './components/ThemeToggle'
 import Link from 'next/link'
-import PortfolioGrid from './components/PortfolioGrid'
+import ThemeToggle from './components/ThemeToggle'
 
-export default async function Home() {
-  const { data: portfolioItems, error } = await supabase
-    .from('portfolio_items')
-    .select('*')
-    .order('created_at', { ascending: false })
-
-  if (error) {
-    console.error('Error fetching portfolio items:', error)
-  }
-
+export default function Home() {
   return (
-    <main style={{ maxWidth: '900px', margin: '0 auto', padding: '0 1.5rem' }}>
-      <nav
+    <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+      <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '1.5rem 0',
+          fontSize: '13px',
+          color: 'var(--muted)',
+          marginBottom: '2rem',
         }}
       >
-        <span style={{ fontWeight: 500, fontSize: '16px' }}>COTAZAAN</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <Link href="/book" style={{ fontSize: '14px', color: 'var(--foreground)', textDecoration: 'none' }}>
-            Book
-          </Link>
+        <span>Home</span>
+        <span>AI Design Engineer</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span>Windhoek</span>
           <ThemeToggle />
         </div>
-      </nav>
+      </div>
 
-      <section style={{ padding: '3rem 0 2.5rem' }}>
-        <h1
+      <h1
+        style={{
+          fontSize: 'clamp(3rem, 8vw, 5rem)',
+          fontWeight: 500,
+          margin: '0 0 2rem',
+          letterSpacing: '-0.02em',
+        }}
+      >
+        Your Name
+      </h1>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '12px', marginBottom: '12px' }}>
+        <BentoCard href="/about" label="About" />
+        <BentoCard href="/portfolio" label="Portfolio" />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        <BentoCard href="/contact" label="Contact" />
+        <div
           style={{
-            fontSize: 'clamp(2.5rem, 6vw, 3.5rem)',
-            fontWeight: 500,
-            lineHeight: 1.05,
-            margin: '0 0 1.25rem',
-            letterSpacing: '-0.02em',
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '16px',
+            aspectRatio: '1',
+          }}
+        />
+      </div>
+
+      <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+        <div
+          style={{
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '16px',
+            padding: '1rem',
+            flex: 1,
+            display: 'flex',
+            gap: '10px',
           }}
         >
-          Every frame
-          <br />
-          tells a story.
-        </h1>
-        <p style={{ fontSize: '16px', color: 'var(--muted)', maxWidth: '380px', margin: '0 0 1.5rem' }}>
-          Portfolio, booking, and social publishing — all in one place.
-        </p>
-        <Link
-          href="/book"
+          <span style={{ fontSize: '13px', color: 'var(--muted)' }}>Instagram</span>
+          <span style={{ fontSize: '13px', color: 'var(--muted)' }}>Facebook</span>
+          <span style={{ fontSize: '13px', color: 'var(--muted)' }}>WhatsApp</span>
+        </div>
+        <a
+           href="/resume.pdf"
           style={{
-            display: 'inline-block',
-            background: 'var(--accent)',
-            color: 'var(--background)',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '999px',
-            fontSize: '14px',
-            fontWeight: 500,
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '16px',
+            padding: '1rem',
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--foreground)',
             textDecoration: 'none',
+            fontSize: '14px',
           }}
         >
-          Book a session
-        </Link>
-      </section>
-
-      <PortfolioGrid items={portfolioItems || []} />
+          Resume
+        </a>
+      </div>
     </main>
+  )
+}
+
+function BentoCard({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      style={{
+        background: 'var(--surface)',
+        border: '1px solid var(--border)',
+        borderRadius: '16px',
+        padding: '1.25rem',
+        color: 'var(--foreground)',
+        textDecoration: 'none',
+        fontSize: '15px',
+        minHeight: '140px',
+        display: 'flex',
+        alignItems: 'flex-end',
+        transition: 'background 0.2s ease',
+      }}
+    >
+      {label}
+    </Link>
   )
 }
